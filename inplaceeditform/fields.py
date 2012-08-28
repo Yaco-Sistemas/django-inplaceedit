@@ -117,14 +117,25 @@ class BaseAdaptorField(object):
                                 {'config': self.config})
 
     def can_edit(self):
-        can_edit_adaptor_path = getattr(settings, 'ADAPTOR_INPLACEEDIT_EDIT', None)
-        if can_edit_adaptor_path:
-            path_module, class_adaptor = ('.'.join(can_edit_adaptor_path.split('.')[:-1]),
-                                          can_edit_adaptor_path.split('.')[-1])
-            cls_perm = getattr(import_module(path_module), class_adaptor)
-        else:
-            cls_perm = SuperUserPermEditInline
-        return cls_perm.can_edit(self)
+        '''
+        Seems to be the checking to see if the field is editable or not.
+
+        Added a try catch with a fallback to False to prevent error when the
+        template is called directly from another view (in this case our pdf
+        generator).
+        '''
+        try:
+            can_edit_adaptor_path = getattr(settings, 'ADAPTOR_INPLACEEDIT_EDIT', None)
+            if can_edit_adaptor_path:
+                path_module, class_adaptor = ('.'.join(can_edit_adaptor_path.split('.')[:-1]),
+											  can_edit_adaptor_path.split('.')[-1])
+                cls_perm = getattr(import_module(path_module), class_adaptor)
+            else:
+                cls_perm = SuperUserPermEditInline
+            return cls_perm.can_edit(self)
+        except:
+            return False
+
 
     def loads_to_post(self, request):
         return simplejson.loads(request.POST.get('value'))
