@@ -1,3 +1,7 @@
+.inplaceedit.enable img{
+    border: 2px solid transparent;
+}
+
 .inplaceedit.enable:hover,
 .inplaceedit.enable:hover img {
     cursor: pointer; 
