@@ -3,9 +3,11 @@ import json
 import sys
 
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.fields import FieldDoesNotExist
 from django.http import HttpResponse
 from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 
 from inplaceeditform.commons import (get_dict_from_obj, apply_filters,
                                      get_adaptor_class)
@@ -29,6 +31,7 @@ def save_ajax(request):
     form_class = adaptor.get_form_class()
     field_name = adaptor.field_name
     form = form_class(data=new_data, instance=adaptor.obj)
+    messages = []
     try:
         value_edit = adaptor.get_value_editor(value)
         value_edit_with_filter = apply_filters(value_edit, adaptor.filters_to_edit)
@@ -37,15 +40,21 @@ def save_ajax(request):
             adaptor.save(value_edit_with_filter)
             return _get_http_response({'errors': False,
                                        'value': adaptor.render_value_edit()})
-        messages = []  # The error is for another field that you are editing
+        # The error is for another field that you are editing
         for field_name_error, errors_field in form.errors.items():
+            try:
+                name = form.instance._meta.get_field_by_name(
+                    field_name_error)[0].verbose_name.decode('utf-8')
+            except FieldDoesNotExist:
+                name = field_name_error
             for error in errors_field:
-                messages.append("%s: %s" % (field_name_error, unicode(error)))
-        message_i18n = ','.join(messages)
-        return _get_http_response({'errors': message_i18n})
+                messages.append([name, unicode(error)])
     except ValidationError as error:  # The error is for a field that you are editing
-        message_i18n = ', '.join([u"%s" % m for m in error.messages])
-        return _get_http_response({'errors': message_i18n})
+        for error in error.messages:
+            messages.append([None, unicode(error)])
+    message_i18n = render_to_string('inplaceeditform/field_errors.html',
+                                    {'errors': messages})
+    return _get_http_response({'errors': message_i18n})
 
 
 def get_field(request):
