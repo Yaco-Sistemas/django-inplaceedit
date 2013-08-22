@@ -406,6 +406,74 @@ Example
          return can_edit
 
 
+How to use other styles (e.g. Bootstrap)
+========================================
+
+You might want to keep congruent styles in your project and/or you don't like the predefined ones. Well, there are only a few steps to take:
+
+Don't include the project's css. Instead include the js only.
+
+    {% inplace_js 1 %}
+
+Change the render_field.html template and add your wanted markup. E.g.
+
+    {% load i18n %}
+    {% block form %}
+        <form class="inplaceeditform {% block formclass %}{% endblock %}{{ class_inplace }}" action="{{ inplace_save_url }}" enctype=multipart/form-data>
+            <div class="form-group">
+                {{ field }}
+            </div>
+            <span class="field_id" style="display:none">{{ field.auto_id }}</span>
+            {% block actions %}
+                {% block apply %}
+                    <a href="#" class="apply {% block classapply %}{% endblock %}" title="{% trans "Apply change" %}">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </a>
+                {% endblock %}
+                {% block cancel %}
+                    <a href="#" class="cancel {% block classcancel %}{% endblock %}" title="{% trans "Cancel change" %}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                {% endblock %}
+            {% endblock %}
+        </form>
+    {% endblock %}
+
+(optional) Change other templates to match your wanted style.
+
+Add some CSS/LESS power to style inplaceedit.
+
+    .inplaceeditform {
+        .form-group {
+            margin-bottom: 0;
+            display: inline;
+            input, textarea, select {
+                min-width: 150px;
+                display: inline;
+            }
+        }
+        .errors {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            color: @red;
+        }
+        .apply, .cancel {
+            display: inline-block;
+            margin-left: 5px;
+            text-decoration: none;
+        }
+        .glyphicon-ok {
+            color: @green;
+        }
+        .glyphicon-remove {
+            color: @red;
+        }
+    }
+    .inplaceedit {
+        cursor: pointer;
+    }
+
 Testing
 =======
 

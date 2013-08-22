@@ -267,7 +267,7 @@
                     alert("The server is down");
                 } else if (response.errors) {
                     form.animate({opacity: 1});
-                    form.prepend("<ul class='errors'><li>" + response.errors + "</li></ul>");
+                    form.append(response.errors);
                 } else {
                     that.parent().fadeOut();
                     that.fadeIn();
@@ -289,7 +289,7 @@
                 var self = $.inplaceeditform;
                 if (self.opts.successText) {
                     var success_message = $("<ul class='success'><li>" + self.opts.successText + "</li></ul>");
-                    inplace_span.prepend(success_message);
+                    inplace_span.append(success_message);
                     setTimeout(function () {
                         success_message.fadeOut(function () {
                             $(this).remove();
