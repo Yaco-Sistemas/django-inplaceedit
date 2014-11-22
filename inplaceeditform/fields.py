@@ -106,7 +106,20 @@ class BaseAdaptorField(object):
         return config
 
     def get_form_class(self):
-        return modelform_factory(self.model)
+
+        kwargs = {}
+
+        fields = getattr(self.model, 'INPLACEEDIT_FIELDS', None)
+
+        if fields:
+            kwargs['fields'] = fields
+
+        exclude = getattr(self.model, 'INPLACEEDIT_EXCLUDE', None)
+
+        if exclude:
+            kwargs['exclude'] = exclude
+
+        return modelform_factory(self.model, **kwargs)
 
     def get_form(self):
         form_class = self.get_form_class()
