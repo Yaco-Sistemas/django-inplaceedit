@@ -106,8 +106,35 @@ class BaseAdaptorField(object):
         return config
 
     def get_form_class(self):
+        """ Allow to customize the modelform, or just its fields / exclude.
+
+        On your model class, define class attributes:
+
+        - ``INPLACEEDIT_FORM`` will be passed as ``form`` argument to
+          Django's ``modelform_factory()``. You can specify the form class
+          as string, like 'myproject.myapp.forms.mymodule.MyModelFormClass'.
+        - ``INPLACEEDIT_FIELDS`` will be passed as ``fields``.
+        - ``INPLACEEDIT_EXCLUDE`` will be passed as ``exclude``.
+        """
+
+        def import_obj(name):
+
+            module, objekt = name.rsplit('.', 1)
+            mod = __import__(module)
+            components = name.split('.')
+            for comp in components[1:]:
+                mod = getattr(mod, comp)
+            return mod
 
         kwargs = {}
+
+        form = getattr(self.model, 'INPLACEEDIT_FORM', None)
+
+        if form:
+            if isinstance(form, str) or isinstance(form, unicode):
+                form = import_obj(form)
+
+            kwargs['form'] = form
 
         fields = getattr(self.model, 'INPLACEEDIT_FIELDS', None)
 
