@@ -37,7 +37,7 @@ msgstr "Masz niezapisane zmiany!"
 
 #: .\templates\inplaceeditform\inc.inplace_toolbar.html:3
 msgid "Enable edit inline"
-msgstr "Włącz edycję w miejscu
+msgstr "Włącz edycję w miejscu"
 
 #: .\templates\inplaceeditform\inc.inplace_toolbar.html:4
 msgid "Disable edit inline"
