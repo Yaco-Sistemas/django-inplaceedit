@@ -29,6 +29,6 @@ class AdminDjangoPermEditInline(SuperUserPermEditInline):
         if not is_super_user:
             model = field.model
             model_edit = '%s.change_%s' % (model._meta.app_label,
-                                           model._meta.module_name)
+                                           model._meta.model_name)
             return field.request.user.has_perm(model_edit)
         return is_super_user
