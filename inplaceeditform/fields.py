@@ -57,7 +57,7 @@ class BaseAdaptorField(object):
         self.config['obj_id'] = unicode(self.obj.pk)
         self.config['field_name'] = self.field_name_render
         self.config['app_label'] = self.model._meta.app_label
-        self.config['module_name'] = self.model._meta.model_name
+        self.config['model_name'] = self.model._meta.model_name
         self.config['filters_to_show'] = filters_to_show
         self.config['can_auto_save'] = self.config.get('can_auto_save', 1)
 
@@ -106,8 +106,7 @@ class BaseAdaptorField(object):
         return config
 
     def get_form_class(self):
-	model_fields=(self.field_name,)
-        return modelform_factory(self.model, fields=model_fields)
+        return modelform_factory(self.model, fields = [self.field_name])
 
     def get_form(self):
         form_class = self.get_form_class()
