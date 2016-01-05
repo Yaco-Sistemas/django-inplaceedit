@@ -41,6 +41,7 @@ Requirements
  * `Django <https://www.djangoproject.com/>`_ (>= 1.2, even works with 1.1 with some customizations in your project)
  * `jQuery <http://jquery.com/>`_ (>=1.6)
 
+To install, run ``pip install django-inplaceedit``
 
 Other packages related
 ======================
