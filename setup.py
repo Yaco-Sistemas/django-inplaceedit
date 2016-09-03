@@ -15,11 +15,12 @@
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import io
 from setuptools import setup, find_packages
 
 
 def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    return io.open(os.path.join(os.path.dirname(__file__), *rnames), encoding='utf-8').read()
 
 setup(
     name="django-inplaceedit",
