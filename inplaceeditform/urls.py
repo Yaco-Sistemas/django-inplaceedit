@@ -19,8 +19,9 @@ try:
 except ImportError:  # Django < 1.4
     from django.conf.urls.defaults import patterns, url
 
+from inplaceeditform import views
 
-urlpatterns = patterns('inplaceeditform.views',
-    url(r'^save/$', 'save_ajax', name='inplace_save'),
-    url(r'^get_field/$', 'get_field', name='inplace_get_field')
-)
+urlpatterns = [
+    url(r'^save/$', views.save_ajax, name='inplace_save'),
+    url(r'^get_field/$', views.get_field, name='inplace_get_field')
+]

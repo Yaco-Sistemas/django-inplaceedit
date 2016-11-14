@@ -87,9 +87,9 @@ class InplaceTestCase(TestCase):
         for field_name in field_names:
             extra_data = {}
             if field_name in transmeta.get_all_translatable_fields(model):
-                field = model._meta.get_field_by_name(transmeta.get_fallback_fieldname(field_name))[0]
+                field = model._meta.get_field(transmeta.get_fallback_fieldname(field_name))
             else:
-                field = model._meta.get_field_by_name(field_name)[0]
+                field = model._meta.get_field(field_name)
             if field_name == 'id' or field_name.endswith('_id'):  # id or id fk
                 continue
             url = reverse('inplace_save')
