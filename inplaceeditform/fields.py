@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import json
 import numbers
 import sys
@@ -27,6 +28,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.admin.widgets import AdminDateWidget, AdminSplitDateTime, AdminTimeWidget
 from django.forms.models import modelform_factory
 from django.template.loader import render_to_string
+from django.utils.duration import duration_string
 from django.utils.formats import number_format
 
 from inplaceeditform import settings as inplace_settings
@@ -465,6 +467,20 @@ class AdaptorTimeField(BaseDateField):
         field = super(AdaptorTimeField, self).get_field()
         field.field.widget = AdminTimeWidget()
         return field
+
+
+class AdaptorDurationField(BaseAdaptorField):
+
+    @property
+    def name(self):
+        return 'duration'
+
+    def render_value(self, field_name=None):
+        value = super(AdaptorDurationField, self).\
+            render_value(field_name=field_name)
+        if isinstance(value, datetime.timedelta):
+            return duration_string(value)
+        return value
 
 
 class BaseNumberField(BaseAdaptorField):

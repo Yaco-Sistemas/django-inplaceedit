@@ -45,6 +45,7 @@ class UnusualModel(models.Model):
     slug_field = models.SlugField()
     smallinteger_field = models.SmallIntegerField()
     time_field = models.TimeField()
+    duration_field = models.DurationField()
     url_field = models.URLField()
     email_field = models.EmailField()
     one_to_one_field = models.OneToOneField(User)

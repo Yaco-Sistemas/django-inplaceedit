@@ -103,6 +103,8 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
             adaptor = 'date'
         elif isinstance(field, models.TimeField):
             adaptor = 'time'
+        elif isinstance(field, models.DurationField):
+            adaptor = 'duration'
         elif isinstance(field, models.IntegerField):
             adaptor = 'integer'
         elif isinstance(field, models.FloatField):
