@@ -28,6 +28,7 @@ class Migration(migrations.Migration):
                 ('slug_field', models.SlugField()),
                 ('smallinteger_field', models.SmallIntegerField()),
                 ('time_field', models.TimeField()),
+                ('duration_field', models.DurationField()),
                 ('url_field', models.URLField()),
                 ('email_field', models.EmailField(max_length=254)),
                 ('one_to_one_field', models.OneToOneField(to=settings.AUTH_USER_MODEL)),

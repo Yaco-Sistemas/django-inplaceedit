@@ -7,6 +7,7 @@
             "url_field": "http://www.yaco.es/",
             "email_field": "pmartin@yaco.es",
             "time_field": "13:37:42", 
+            "duration_field": "10:37:42", 
             "one_to_one_field": 2, 
             "generic_ip_field": "1.1.1.1", 
             "smallinteger_field": 9, 
