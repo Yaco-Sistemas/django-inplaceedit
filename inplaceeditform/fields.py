@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
+from datetime import timedelta
 import json
 import numbers
 import sys
@@ -478,9 +478,15 @@ class AdaptorDurationField(BaseAdaptorField):
     def render_value(self, field_name=None):
         value = super(AdaptorDurationField, self).\
             render_value(field_name=field_name)
-        if isinstance(value, datetime.timedelta):
+        if isinstance(value, timedelta):
             return duration_string(value)
         return value
+
+    def render_value_edit(self):
+        value = self.render_value()
+        if value and not (value == '00:00:00' or value == timedelta(0)):
+            return value
+        return self.empty_value()
 
 
 class BaseNumberField(BaseAdaptorField):
