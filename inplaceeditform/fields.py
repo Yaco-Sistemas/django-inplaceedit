@@ -136,7 +136,7 @@ class BaseAdaptorField(object):
 
     def render_value_edit(self):
         value = self.render_value()
-        if value:
+        if isinstance(value, int) or value:
             return value
         return self.empty_value()
 
