@@ -17,6 +17,7 @@
 import json
 import numbers
 import sys
+import re
 
 import django
 
@@ -122,6 +123,7 @@ class BaseAdaptorField(object):
     def get_field(self):
         field = self.get_form()[self.field_name]
         field = self._adding_size(field)
+        field = self._adding_attrs(field)
         return field
 
     def get_value_editor(self, value):
@@ -255,6 +257,19 @@ class BaseAdaptorField(object):
                 style += "%s: %s; " % (key, value)
             if style:
                 attrs['style'] = style
+        field.field.widget.attrs = attrs
+        return field
+
+    def _adding_attrs(self, field):
+        attrs = field.field.widget.attrs
+        # Loop through all key-value pairs in pass config
+        for key, value in self.config.items():
+            # Search the prefix 'widget_property__'
+            if re.search(r'widget_property__', key):
+                # Define the attribute as the part that comes
+                # after 'widget_property__'
+                attr_name = re.sub('widget_property__', '', key)
+                attrs[attr_name] = value
         field.field.widget.attrs = attrs
         return field
 

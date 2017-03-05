@@ -39,7 +39,8 @@ def save_ajax(request):
         return _get_http_response({'errors': 'Params insufficient'})
     if not adaptor.can_edit():
         return _get_http_response({'errors': 'You can not edit this content'})
-    value = adaptor.loads_to_post(request)
+    # rstrip in order to remove trailing spaces or enters
+    value = adaptor.loads_to_post(request).rstrip()
     new_data = get_dict_from_obj(adaptor.obj)
     form_class = adaptor.get_form_class()
     field_name = adaptor.field_name
