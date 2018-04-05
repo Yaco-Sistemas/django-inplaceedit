@@ -16,7 +16,7 @@
 import json
 
 from django import template
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template import Library, Variable
 
 from inplaceeditform import settings as inplace_settings

@@ -441,14 +441,14 @@
                 var applyButton = $(that).next().find(".apply");
                 var cancelButton = $(that).next().find(".cancel");
                 var applyFileButton = $(that).next().find(".applyFile");
-                if (cancelButton.size()) {
+                if (cancelButton.length) {
                     cancelButton.click(self.methods.inplaceCancel);
                 }
-                if (applyButton.size()) {
+                if (applyButton.length) {
                     applyButton.click(self.methods.inplaceApply);
                     $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyButton));
                 }
-                if (applyFileButton.size()) {
+                if (applyFileButton.length) {
                     applyFileButton.click(self.methods.inplaceApplyUpload);
                     $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApplyUpload, applyFileButton));
                 }
@@ -502,7 +502,7 @@
         onBeforeUnloadEvent: function (event) {
             var msg = undefined;
             var self = $.inplaceeditform;
-            if ($(self.formSelector).size()) {
+            if ($(self.formSelector).length) {
                 if (!self.isMsIE || (window.couldCatch && !(window.newLocation.indexOf("javascript:") === 0))) {
                     msg = self.opts.unsavedChanges;
                     if (event) {
